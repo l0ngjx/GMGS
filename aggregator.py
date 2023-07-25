@@ -30,7 +30,7 @@ class AttributeAggregator(nn.Module):
             E.append(e)
 
         return E
-    #得到mi 公式3-5
+    
     def generate_mirror(self, alpha, as_items, attribute_mask):
         as_representations = []
         for i in range(self.opt.attribute_kinds):
@@ -119,7 +119,7 @@ class LocalAggregator(nn.Module):
         output = torch.matmul(alpha, h)
         return output
 
-#Iterative Dual Refinement 迭代对偶求精
+#Iterative Dual Refinement 
 class MirrorAggregator(nn.Module):
     def __init__(self, dim):
         super(MirrorAggregator, self).__init__()
