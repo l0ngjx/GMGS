@@ -90,13 +90,13 @@ class CombineGraph(Module):
         
 #         hs = torch.sum(hidden * mask, -2) / torch.sum(mask, 1)
 #         hs = hs.unsqueeze(-2).repeat(1, hidden.shape[1], 1)
-        # 公式13、14
+        
         nh = torch.sigmoid(self.glu1(hp) + self.glu2(hg) + self.glu4(hl))
 #         nh = torch.sigmoid(self.glu1(hp) + self.glu2(hg))
         beta = torch.matmul(nh, self.w)
         beta = beta * mask
         zg = torch.sum(beta * hp, 1)
-        # 公式15、16
+        
         gf = torch.sigmoid(self.gate(torch.cat([zg, h_local], dim=-1))) * self.mu
         zh = gf * h_local + (1 - gf) * zg
         zh = F.dropout(zh, self.opt.dropout_score, self.training)
@@ -211,7 +211,7 @@ class CombineGraph(Module):
             x = self.local_agg[i](x, adj, mask_item)
             x, mirror_nodes = self.mirror_agg[i](mirror_nodes, x, mask_item)
 
-        # highway 公式10、11
+        # highway 
         g = torch.sigmoid(self.highway(torch.cat([h, x], dim=2)))
         x_dot = g * h + (1 - g) * x
 #         x_dot = h_global + x_dot
@@ -322,9 +322,6 @@ def train_test(model, opt, train_data, test_data):
             else:
                 mrr_10.append(1 / (np.where(score == target - 1)[0][0] + 1))
                 
-    # np.savetxt('P20.txt',hit_20,fmt='%d')            
-    # np.savetxt('Mrr20.txt',mrr_20,fmt='%.3f')
-
     result_20.append(np.mean(hit_20) * 100)
     result_20.append(np.mean(mrr_20) * 100)
 
