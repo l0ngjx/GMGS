@@ -39,7 +39,6 @@ adj = [[] for _ in range(num)]
 
 for i in range(len(seq)):
     data = seq[i]
-    # attributes = product_attributes[i]
     for k in range(1, 4):
         for j in range(len(data)-k):
             relation.append([data[j], data[j+k]])
@@ -66,7 +65,6 @@ for t in range(num):
 for i in range(num):
     adj[i] = adj[i][:sample_num]
     weight[i] = weight[i][:sample_num]
-    # print(weight[i])
 
 pickle.dump(adj, open('datasets/' + dataset + '/adj_' + str(sample_num) + '.pkl', 'wb'))
 pickle.dump(weight, open('datasets/' + dataset + '/num_' + str(sample_num) + '.pkl', 'wb'))
